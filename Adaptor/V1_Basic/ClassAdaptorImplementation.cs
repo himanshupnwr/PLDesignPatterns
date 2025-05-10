@@ -1,4 +1,10 @@
-﻿namespace Adaptor
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Adaptor.V1_Basic
 {
     public class CityFromExternalSystem
     {
@@ -48,18 +54,16 @@
     /// <summary>
     /// Adapter
     /// </summary>
-    public class CityAdapter : ICityAdapter
+    public class CityAdapter : ExternalSystem, ICityAdapter
     {
-        public ExternalSystem ExternalSystem { get; private set; } = new();
-
         public City GetCity()
         {
             // call into the external system 
-            var cityFromExternalSystem = ExternalSystem.GetCity();
+            var cityFromExternalSystem = base.GetCity();
 
             // adapt the CityFromExternalCity to a City 
-            return new City($"{cityFromExternalSystem.Name} - {cityFromExternalSystem.NickName}", 
-                cityFromExternalSystem.Inhabitants);
+            return new City($"{cityFromExternalSystem.Name} - {cityFromExternalSystem.NickName}"
+                , cityFromExternalSystem.Inhabitants);
         }
     }
 }

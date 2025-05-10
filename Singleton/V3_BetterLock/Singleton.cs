@@ -1,6 +1,5 @@
 ﻿namespace Singleton.V3_BetterLock
 {
-    // Bad code
     #nullable enable
     public sealed class Singleton
     {
@@ -11,7 +10,9 @@
         {
             get
             {
-                //we get a performance benefit by this extra if check as we do not have to check lock every time
+                // this is called double check locking approach
+                // we only fetch the lock when the instance is null
+                // we get a performance benefit by this extra if check as we do not have to check lock every time
                 Logger.Log("Instance Called");
                 if(_instance == null)
                 {
