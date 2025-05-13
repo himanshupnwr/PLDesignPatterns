@@ -69,4 +69,3 @@ namespace Singleton.V5_NestedLazy
         }
     }
 }
-}

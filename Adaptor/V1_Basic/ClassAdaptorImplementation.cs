@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Adaptor.V1_Basic
 {
-    public class CityFromExternalSystem
+    public class CityFromExternalSystem_Class
     {
         public string Name { get; private set; }
         public string NickName { get; private set; }
         public int Inhabitants { get; private set; }
 
-        public CityFromExternalSystem(string name, string nickName, int inhabitants)
+        public CityFromExternalSystem_Class(string name, string nickName, int inhabitants)
         {
             Name = name;
             NickName = nickName;
@@ -23,46 +23,46 @@ namespace Adaptor.V1_Basic
     /// <summary>
     /// Adaptee
     /// </summary>
-    public class ExternalSystem
+    public class ExternalSystem_Class
     {
-        public CityFromExternalSystem GetCity()
+        public CityFromExternalSystem_Class GetCity()
         {
-            return new CityFromExternalSystem("Antwerp", "'t Stad", 500000);
+            return new CityFromExternalSystem_Class("Antwerp", "'t Stad", 500000);
         }
     }
 
-    public class City
+    public class City_Class
     {
-        public string FullName { get; private set; }
-        public long Inhabitants { get; private set; }
+        public string FullName_Class { get; private set; }
+        public long Inhabitants_Class { get; private set; }
 
-        public City(string fullName, long inhabitants)
+        public City_Class(string fullName, long inhabitants)
         {
-            FullName = fullName;
-            Inhabitants = inhabitants;
+            FullName_Class = fullName;
+            Inhabitants_Class = inhabitants;
         }
     }
 
     /// <summary>
     /// Target
     /// </summary>
-    public interface ICityAdapter
+    public interface ICityAdapter_Class
     {
-        City GetCity();
+        City_Class GetCity();
     }
 
     /// <summary>
     /// Adapter
     /// </summary>
-    public class CityAdapter : ExternalSystem, ICityAdapter
+    public class CityAdapter_Class : ExternalSystem_Class, ICityAdapter_Class
     {
-        public City GetCity()
+        public City_Class GetCity()
         {
             // call into the external system 
             var cityFromExternalSystem = base.GetCity();
 
             // adapt the CityFromExternalCity to a City 
-            return new City($"{cityFromExternalSystem.Name} - {cityFromExternalSystem.NickName}"
+            return new City_Class($"{cityFromExternalSystem.Name} - {cityFromExternalSystem.NickName}"
                 , cityFromExternalSystem.Inhabitants);
         }
     }
