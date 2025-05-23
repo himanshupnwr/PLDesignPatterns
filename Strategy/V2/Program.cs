@@ -1,11 +1,6 @@
 ﻿using Strategy.V2.InvoiceStrategy;
 using Strategy.V2.SalesTaxStrategy;
 using Strategy.V2.ShippingStrategy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Strategy.V2
 {
