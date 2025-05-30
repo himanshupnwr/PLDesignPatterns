@@ -1,4 +1,4 @@
-﻿namespace Memento
+﻿namespace Memento.V1
 {
     public class Employee
     {
@@ -185,7 +185,7 @@
         {
             while (_mementos.Any())
             {
-                while(_mementos.Any())
+                while (_mementos.Any())
                 {
                     _command?.RestoreMemento(_mementos.Pop());
                     _command?.Undo();
