@@ -1,3 +1,5 @@
+using Memento.V2;
+
 namespace Memento.Tests
 {
     public class HangmaneGameConstructor
