@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyShop.Domain;
-using MyShop.Infrastructure.Repositories;
+using MyShop.Infrastructure;
 using MyShop.Web.Models;
 using System.Diagnostics;
 
@@ -8,26 +8,23 @@ namespace MyShop.Web.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IRepository<Order> orderRepository;
-        private readonly IRepository<Product> productRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public OrderController(IRepository<Order> orderRepository,
-             IRepository<Product> productRepository)
+        public OrderController(IUnitOfWork unitOfWork)
         {
-            this.orderRepository = orderRepository;
-            this.productRepository = productRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            var orders = orderRepository.Find(order => order.OrderDate > DateTime.UtcNow.AddDays(-1));
+            var orders = unitOfWork.OrderRepository.Find(order => order.OrderDate > DateTime.UtcNow.AddDays(-1));
 
             return View(orders);
         }
 
         public IActionResult Create()
         {
-            var products = productRepository.GetAll();
+            var products = unitOfWork.ProductRepository.GetAll();
 
             return View(products);
         }
@@ -57,9 +54,9 @@ namespace MyShop.Web.Controllers
                 Customer = customer
             };
 
-            orderRepository.Add(order);
+            unitOfWork.OrderRepository.Add(order);
 
-            orderRepository.SaveChanges();
+            unitOfWork.OrderRepository.SaveChanges();
 
             return Ok("Order Created");
         }

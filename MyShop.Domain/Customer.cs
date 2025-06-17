@@ -9,6 +9,7 @@
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
+        public virtual byte[] ProfilePicture { get; set; }
 
         public Customer()
         {
