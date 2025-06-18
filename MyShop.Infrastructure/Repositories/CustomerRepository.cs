@@ -1,5 +1,6 @@
 ﻿using MyShop.Domain;
 using MyShop.Domain.Lazy;
+using MyShop.Infrastructure.Lazy.Proxies;
 using MyShop.Infrastructure.Services;
 
 namespace MyShop.Infrastructure.Repositories
@@ -12,15 +13,17 @@ namespace MyShop.Infrastructure.Repositories
 
         public override IEnumerable<Customer> GetAll()
         {
-            return base.GetAll().Select(c =>
-            {
-                c.ProfilePictureValueHolder = new Lazy<byte[]>(() =>
-                {
-                    return ProfilePictureService.GetFor(c.Name);
-                });
+            //return base.GetAll().Select(c =>
+            //{
+            //    c.ProfilePictureValueHolder = new Lazy<byte[]>(() =>
+            //    {
+            //        return ProfilePictureService.GetFor(c.Name);
+            //    });
 
-                return c;
-            });
+            //    return c;
+            //});
+
+            return base.GetAll().Select(MapToProxy);
         }
 
         public override Customer Update(Customer entity)
@@ -34,6 +37,19 @@ namespace MyShop.Infrastructure.Repositories
             customer.Country = entity.Country;
 
             return base.Update(customer);
+        }
+
+        private CustomerProxy MapToProxy(Customer customer)
+        {
+            return new CustomerProxy
+            {
+                CustomerId = customer.CustomerId,
+                Name = customer.Name,
+                ShippingAddress = customer.ShippingAddress,
+                City = customer.City,
+                PostalCode = customer.PostalCode,
+                Country = customer.Country
+            };
         }
     }
 }
