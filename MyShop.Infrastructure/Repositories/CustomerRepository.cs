@@ -1,4 +1,6 @@
 ﻿using MyShop.Domain;
+using MyShop.Domain.Lazy;
+using MyShop.Infrastructure.Services;
 
 namespace MyShop.Infrastructure.Repositories
 {
@@ -6,6 +8,19 @@ namespace MyShop.Infrastructure.Repositories
     {
         public CustomerRepository(ShoppingContext context) : base(context)
         {
+        }
+
+        public override IEnumerable<Customer> GetAll()
+        {
+            return base.GetAll().Select(c =>
+            {
+                c.ProfilePictureValueHolder = new Lazy<byte[]>(() =>
+                {
+                    return ProfilePictureService.GetFor(c.Name);
+                });
+
+                return c;
+            });
         }
 
         public override Customer Update(Customer entity)

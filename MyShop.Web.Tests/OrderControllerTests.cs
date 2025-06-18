@@ -1,5 +1,6 @@
 using Moq;
 using MyShop.Domain;
+using MyShop.Infrastructure;
 using MyShop.Infrastructure.Repositories;
 using MyShop.Web.Controllers;
 using MyShop.Web.Models;
@@ -15,11 +16,9 @@ namespace MyShop.Web.Tests
             var orderRepository = new Mock<IRepository<Order>>();
             var productRepository = new Mock<IRepository<Product>>();
             var customerRepository = new Mock<IRepository<Customer>>();
+            var unitOfWork = new Mock<IUnitOfWork>();
 
-            var orderController = new OrderController(
-                orderRepository.Object,
-                productRepository.Object
-            );
+            var orderController = new OrderController(unitOfWork.Object);
 
             var createOrderModel = new CreateOrderModel
             {
