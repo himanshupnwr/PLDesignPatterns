@@ -1,5 +1,6 @@
 ﻿using MyShop.Domain;
 using MyShop.Domain.Lazy;
+using MyShop.Infrastructure.Lazy.Ghosts;
 using MyShop.Infrastructure.Lazy.Proxies;
 using MyShop.Infrastructure.Services;
 
@@ -9,6 +10,20 @@ namespace MyShop.Infrastructure.Repositories
     {
         public CustomerRepository(ShoppingContext context) : base(context)
         {
+        }
+
+
+        public override Customer Get(Guid id)
+        {
+            var customerId = context.Customers
+                .Where(c => c.CustomerId == id)
+                .Select(c => c.CustomerId)
+                .Single();
+
+            return new GhostCustomer(() => base.Get(id))
+            {
+                CustomerId = customerId
+            };
         }
 
         public override IEnumerable<Customer> GetAll()
